@@ -1,9 +1,10 @@
 import React from 'react'
+import Users from './users/components/Users'
 
 const App = () => {
   return (
     <div>
-      App
+     <Users/>
     </div>
   )
 }
