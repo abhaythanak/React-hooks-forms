@@ -16,3 +16,9 @@ export const schema = z.object({
 });
 
 export type FormSchema = z.infer<typeof schema>;
+
+export const defaultValues = {
+  name: "",
+  email: "",
+  states: [],
+};

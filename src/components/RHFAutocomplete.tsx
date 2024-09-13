@@ -2,8 +2,8 @@ import React from "react";
 import { Autocomplete, Box, Checkbox, TextField } from "@mui/material";
 import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
 import { Option } from "../types/options";
-import  CheckBoxOutlineBlankIcon  from '@mui/icons-material/CheckBoxOutlineBlank';
-import  CheckBoxIcon  from '@mui/icons-material/CheckBox'
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 type Props<T extends FieldValues> = {
   name: Path<T>;
@@ -13,33 +13,33 @@ type Props<T extends FieldValues> = {
 
 export default function RHFAutocomplete<T extends FieldValues>({
   name,
-  options,
+  options = [], // Provide default empty array for options
   label,
 }: Props<T>) {
   const { control } = useFormContext();
+
   return (
     <>
       <Controller
         control={control}
         name={name}
-        render={({
-          field: { value, onChange, ref },
-          fieldState: { error },
-        }) => (
+        render={({ field: { value = [], onChange, ref }, fieldState: { error } }) => (
           <Autocomplete
-            options={options}
-            value={value.map((id: string) =>
-              options.find((item) => item.id === id)
-            )}
+            options={options || []}
+            value={
+              Array.isArray(value)
+                ? value.map((id: string) => options.find((item) => item.id === id) || null)
+                : []
+            }
             onChange={(_, newValue) => {
               onChange(newValue.map((item) => item.id));
             }}
             ref={ref}
             getOptionLabel={(option) =>
-              options.find((item) => item.id === option)?.label ?? ""
+              options.find((item) => item.id === option?.id)?.label ?? ""
             }
             isOptionEqualToValue={(option, newValue) =>
-              option.id === newValue.id
+              option?.id === newValue?.id
             }
             multiple
             disableCloseOnSelect
@@ -59,7 +59,7 @@ export default function RHFAutocomplete<T extends FieldValues>({
                   checkedIcon={<CheckBoxIcon />}
                   checked={selected}
                 />
-                {option.label}
+                {option?.label}
               </Box>
             )}
           />
