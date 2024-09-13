@@ -13,6 +13,7 @@ export const schema = z.object({
       { message: "Email is not valid" }
     ),
   states: z.array(z.string()).min(1).max(3),
+  languages: z.array(z.string()),
 });
 
 export type FormSchema = z.infer<typeof schema>;
@@ -21,4 +22,5 @@ export const defaultValues = {
   name: "",
   email: "",
   states: [],
+  languages: [],
 };

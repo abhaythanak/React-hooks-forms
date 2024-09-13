@@ -4,8 +4,12 @@ import { Stack, TextField } from "@mui/material";
 import RHFAutocomplete from "../../components/RHFAutocomplete";
 import { useFormContext } from "react-hook-form";
 import { FormSchema } from "../types/schema";
+import RHFToggleButtonGroup from "../../components/RHFToggleButtonGroup";
+import { useStates, useLanguages } from "../services/queries";
 
 function Users() {
+  const statesQuery = useStates();
+  const languagesQuery = useLanguages();
   const {
     register,
     formState: { errors },
@@ -31,6 +35,7 @@ function Users() {
           { id: "AK", label: "Alaska" },
           { id: "AZ", label: "Arizona" },
         ]} />
+        <RHFToggleButtonGroup<FormSchema> name="languages" label="languages" options={languagesQuery.data || []}/>
     </Stack>
   );
 }
