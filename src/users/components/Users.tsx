@@ -5,11 +5,13 @@ import RHFAutocomplete from "../../components/RHFAutocomplete";
 import { useFormContext } from "react-hook-form";
 import { FormSchema } from "../types/schema";
 import RHFToggleButtonGroup from "../../components/RHFToggleButtonGroup";
-import { useStates, useLanguages } from "../services/queries";
+import { useStates, useLanguages, useGenders } from "../services/queries";
+import RHFRadioGroup from "../../components/RHFRadioGroup";
 
 function Users() {
   const statesQuery = useStates();
   const languagesQuery = useLanguages();
+  const gendersQuery = useGenders();
   const {
     register,
     formState: { errors },
@@ -29,13 +31,22 @@ function Users() {
         error={!!errors.email}
         helperText={errors.email?.message}
       />
-      <RHFAutocomplete<FormSchema> name="states" label="states" 
-        options={[
-          { id: "AL", label: "Alabama" },
-          { id: "AK", label: "Alaska" },
-          { id: "AZ", label: "Arizona" },
-        ]} />
-        <RHFToggleButtonGroup<FormSchema> name="languages" label="languages" options={languagesQuery.data || []}/>
+      <RHFAutocomplete<FormSchema>
+        name="states"
+        label="states"
+        options={statesQuery.data}
+      />
+
+      <RHFToggleButtonGroup<FormSchema>
+        name="languages"
+        options={languagesQuery.data || []}
+      />
+
+      <RHFRadioGroup<FormSchema>
+        name="gender"
+        options={gendersQuery.data}
+        label="Gender"
+      />
     </Stack>
   );
 }

@@ -14,6 +14,7 @@ export const schema = z.object({
     ),
   states: z.array(z.string()).min(1).max(3),
   languages: z.array(z.string()),
+  gender: z.string().min(1),
 });
 
 export type FormSchema = z.infer<typeof schema>;
@@ -23,4 +24,5 @@ export const defaultValues = {
   email: "",
   states: [],
   languages: [],
+  gender: '',
 };
