@@ -1,3 +1,4 @@
+import React from 'react'
 import { Controller, FieldValues, Path, useFormContext } from 'react-hook-form';
 import {
 	FormControl,
@@ -14,7 +15,7 @@ type Props<T extends FieldValues> = {
 	label: string;
 };
 
-export default function RHFRadioGroup<T extends FieldValues>({
+export default function RHFCheckbox<T extends FieldValues>({
 	name,
 	options,
 	label,
@@ -25,19 +26,10 @@ export default function RHFRadioGroup<T extends FieldValues>({
 		<Controller
 			control={control}
 			name={name}
-			render={({ field, fieldState: { error } }) => (
-				<FormControl {...field}  error={!!error}>
+			render={({ field: {value, onChange}, fieldState: { error } }) => (
+				<FormControl error={!!error}>
 					<FormLabel>{label}</FormLabel>
-					<RadioGroup>
-						{options?.map((option) => (
-							<FormControlLabel
-								value={option.id}
-								control={<Radio checked={field.value === option.id} />}
-								label={option.label}
-								key={option.id}
-							/>
-						))}
-					</RadioGroup>
+					
 				</FormControl>
 			)}
 		/>
